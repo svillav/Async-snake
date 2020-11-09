@@ -16,9 +16,12 @@
         scenes = [],
         mainScene = null,
         gameScene = null,
+        highscoresScene = null,
         body = [],
         food = null,
         //var wall = [],
+        highscores = [],
+        posHighscore = 10,
         dir = 0,
         score = 0,
         iBody = new Image(),
@@ -106,6 +109,18 @@
         return ~~(Math.random() * max);
     }
 
+    function addHighscore(score) {
+        posHighscore = 0;
+        while (highscores[posHighscore] > score && posHighscore < highscores.length) {
+            posHighscore += 1;
+        }
+        highscores.splice(posHighscore, 0, score);
+        if (highscores.length > 10) {
+            highscores.length = 10;
+        }
+        localStorage.highscores = highscores.join(',');
+    }
+
     function repaint() {
         window.requestAnimationFrame(repaint);
         if (scenes.length) {
@@ -140,6 +155,11 @@
         //wall.push(new Rectangle(200, 50, 10, 10));
         //wall.push(new Rectangle(200, 100, 10, 10));
 
+        // Load saved highscores
+        if (localStorage.highscores) {
+            highscores = localStorage.highscores.split(',');
+        }
+
         // Start game
         run();
         repaint();
@@ -163,7 +183,7 @@
     mainScene.act = function() {
         // Load next scene
         if (lastPress === KEY_ENTER) {
-            loadScene(gameScene);
+            loadScene(highscoresScene);
             lastPress = null;
         }
     };
@@ -233,7 +253,7 @@
         if (!pause) {
             // GameOver Reset
             if (gameover) {
-                loadScene(mainScene);
+                loadScene(highscoresScene);
             }
 
             // Move Body
@@ -319,6 +339,41 @@
         // Pause/Unpause
         if (lastPress === KEY_ENTER) {
             pause = !pause;
+            lastPress = null;
+        }
+    };
+
+    // Highscore Scene
+    highscoresScene = new Scene();
+
+    highscoresScene.paint = function(ctx) {
+        var i = 0,
+            l = 0;
+
+        // Clean canvas
+        ctx.fillStyle = '#030';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw title
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText('HIGH SCORES', 150, 30);
+
+        // Draw high scores
+        ctx.textAlign = 'right';
+        for (i = 0, l = highscores.length; i < l; i += 1) {
+            if (i === posHighscore) {
+                ctx.fillText('*' + highscores[i], 180, 40 + i * 10);
+            } else {
+                ctx.fillText(highscores[i], 180, 40 + i * 10);
+            }
+        }
+    };
+
+    highscoresScene.act = function() {
+        // Load next scene
+        if (lastPress === KEY_ENTER) {
+            loadScene(gameScene);
             lastPress = null;
         }
     };
