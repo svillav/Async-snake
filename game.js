@@ -174,10 +174,13 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw title
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = '#009900';
         ctx.textAlign = 'center';
-        ctx.fillText('SNAKE', 150, 60);
-        ctx.fillText('Press Enter', 150, 90);
+        ctx.font = '50px Verdana';
+        ctx.fillText('SNAKE', 400, 180);
+        ctx.fillStyle = '#fff';
+        ctx.font = '25px sans-serif';
+        ctx.fillText('Press Enter', 400, 270);
     };
 
     mainScene.act = function() {
@@ -230,7 +233,8 @@
         // Draw score
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
-        ctx.fillText('Score: ' + score, 0, 10);
+        ctx.font = '18px sans-serif';
+        ctx.fillText('Score: ' + score, 10, 25);
 
         // Debug last key pressed
         //ctx.fillText('Last Press: '+lastPress,0,20);
@@ -239,9 +243,10 @@
         if (pause) {
             ctx.textAlign = 'center';
             if (gameover) {
-                ctx.fillText('GAME OVER', 150, 75);
+                ctx.fillText('GAME OVER', 400, 230);
             } else {
-                ctx.fillText('PAUSE', 150, 75);
+                ctx.font = '25px sans-serif';
+                ctx.fillText('PAUSE', 400, 230);
             }
         }
     };
@@ -357,7 +362,7 @@
         // Draw title
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
-        ctx.fillText('HIGH SCORES', 150, 30);
+        ctx.fillText('HIGH SCORES', 400, 180);
 
         // Draw high scores
         ctx.textAlign = 'right';
