@@ -19,6 +19,8 @@
         highscoresScene = null,
         body = [],
         food = null,
+        bonus = null,
+        count = 0,
         //var wall = [],
         highscores = [],
         posHighscore = 10,
@@ -26,6 +28,7 @@
         score = 0,
         iBody = new Image(),
         iFood = new Image(),
+        iBonus = new Image(),
         aEat = new Audio(),
         aDie = new Audio();
 
@@ -143,11 +146,15 @@
         // Load assets
         iBody.src = 'assets/body.png';
         iFood.src = 'assets/fruit.png';
+        iBonus.src = 'assets/bonus.png';
         aEat.src = 'assets/chomp.m4a';
         aDie.src = 'assets/dies.m4a';
 
         // Create food
         food = new Rectangle(80, 80, 10, 10);
+
+        // Create bonus
+        bonus = new Rectangle(80, 80, 10, 10);
 
         // Create walls
         //wall.push(new Rectangle(100, 50, 10, 10));
@@ -203,6 +210,8 @@
         body.push(new Rectangle(0, 0, 10, 10));
         food.x = random(canvas.width / 10 - 1) * 10;
         food.y = random(canvas.height / 10 - 1) * 10;
+        bonus.x = random(canvas.width / 10 - 1) * 10;
+        bonus.y = random(canvas.height / 10 - 1) * 10;
         gameover = false;
     };
 
@@ -229,6 +238,12 @@
         // Draw food
         ctx.strokeStyle = '#f00';
         food.drawImage(ctx, iFood);
+
+        // Draw bonus
+        if (count === 5) {
+            ctx.strokeStyle = '#00f';
+            bonus.drawImage(ctx, iBonus);
+        }
 
         // Draw score
         ctx.fillStyle = '#fff';
@@ -283,16 +298,16 @@
 
             // Move Head
             if (dir === 0) {
-                body[0].y -= 10;
+                body[0].y -= 13;
             }
             if (dir === 1) {
-                body[0].x += 10;
+                body[0].x += 13;
             }
             if (dir === 2) {
-                body[0].y += 10;
+                body[0].y += 13;
             }
             if (dir === 3) {
-                body[0].x -= 10;
+                body[0].x -= 13;
             }
 
             // Out Screen
@@ -315,6 +330,16 @@
                 score += 1;
                 food.x = random(canvas.width / 10 - 1) * 10;
                 food.y = random(canvas.height / 10 - 1) * 10;
+                aEat.play();
+                count < 5 ? count++ : count = 0;
+            }
+
+            // Bonus Intersects
+            if (body[0].intersects(bonus) && count === 5) {
+                score += 5;
+                count = 0;
+                bonus.x = random(canvas.width / 10 - 1) * 10;
+                bonus.y = random(canvas.height / 10 - 1) * 10;
                 aEat.play();
             }
 
