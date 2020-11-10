@@ -30,7 +30,8 @@
         iFood = new Image(),
         iBonus = new Image(),
         aEat = new Audio(),
-        aDie = new Audio();
+        aDie = new Audio(),
+        music = new Audio();
 
     window.requestAnimationFrame = (function() {
         return window.requestAnimationFrame ||
@@ -106,10 +107,20 @@
     function loadScene(scene) {
         currentScene = scene.id;
         scenes[currentScene].load();
+        music.play();
     }
 
     function random(max) {
         return ~~(Math.random() * max);
+    }
+
+    function canPlayOgg() {
+        var aud = new Audio();
+        if (aud.canPlayType('audio/ogg').replace(/no/, '')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function addHighscore(score) {
@@ -147,8 +158,14 @@
         iBody.src = 'assets/body.png';
         iFood.src = 'assets/fruit.png';
         iBonus.src = 'assets/bonus.png';
-        aEat.src = 'assets/chomp.m4a';
-        aDie.src = 'assets/dies.m4a';
+        if (canPlayOgg()) {
+            aEat.src = 'assets/chomp.oga';
+            aDie.src = 'assets/dies.oga';
+        } else {
+            aEat.src = 'assets/chomp.m4a';
+            aDie.src = 'assets/dies.m4a';
+        }
+        music.src = 'assets/dub.mp3';
 
         // Create food
         food = new Rectangle(80, 80, 10, 10);
@@ -184,9 +201,14 @@
         ctx.fillStyle = '#009900';
         ctx.textAlign = 'center';
         ctx.font = '50px Verdana';
+        ctx.shadowColor = "green";
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
         ctx.fillText('SNAKE', 400, 180);
         ctx.fillStyle = '#fff';
         ctx.font = '25px sans-serif';
+        ctx.shadowBlur = 0;
         ctx.fillText('Press Enter', 400, 270);
     };
 
@@ -225,6 +247,8 @@
 
         // Draw player
         ctx.strokeStyle = '#0f0';
+        ctx.shadowOffsetX = '0';
+        ctx.shadowOffsetY = '0';
         for (i = 0, l = body.length; i < l; i += 1) {
             body[i].drawImage(ctx, iBody);
         }
@@ -237,11 +261,15 @@
 
         // Draw food
         ctx.strokeStyle = '#f00';
+        ctx.shadowOffsetX = '0';
+        ctx.shadowOffsetY = '0';
         food.drawImage(ctx, iFood);
 
         // Draw bonus
         if (count === 5) {
             ctx.strokeStyle = '#00f';
+            ctx.shadowOffsetX = '0';
+            ctx.shadowOffsetY = '0';
             bonus.drawImage(ctx, iBonus);
         }
 
@@ -249,6 +277,8 @@
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
         ctx.font = '18px sans-serif';
+        ctx.shadowOffsetX = '2';
+        ctx.shadowOffsetY = '2';
         ctx.fillText('Score: ' + score, 10, 25);
 
         // Debug last key pressed
