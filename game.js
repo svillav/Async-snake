@@ -26,6 +26,7 @@
         posHighscore = 10,
         dir = 0,
         score = 0,
+        capture = false,
         iBody = new Image(),
         iFood = new Image(),
         iBonus = new Image(),
@@ -187,6 +188,17 @@
         // Start game
         run();
         repaint();
+    }
+
+    function request() {
+        fetch(`https://jsonplaceholder.typicode.com/?score=${score}`)
+            .then(() => {
+                console.log(`Score sent successfully: ${score}`);
+                capture = false;
+            })
+            .catch(() => {
+                console.log('Error trying to send the score');
+            });
     }
 
     // Main Scene
@@ -366,6 +378,8 @@
 
             // Bonus Intersects
             if (body[0].intersects(bonus) && count === 5) {
+                capture = true;
+                request();
                 score += 5;
                 count = 0;
                 bonus.x = random(canvas.width / 10 - 1) * 10;
