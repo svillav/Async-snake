@@ -170,7 +170,7 @@
 
     mainScene.paint = function(ctx) {
         // Clean canvas
-        ctx.fillStyle = '#030';
+        ctx.fillStyle = '#001';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw title
@@ -208,7 +208,7 @@
             l = 0;
 
         // Clean canvas
-        ctx.fillStyle = '#030';
+        ctx.fillStyle = '#001';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw player
@@ -327,7 +327,7 @@
             //}
 
             // Body Intersects
-            for (i = 2, l = body.length; i < l; i += 1) {
+            for (i = 2, l = body.length; i < l; i++) {
                 if (body[0].intersects(body[i])) {
                     gameover = true;
                     pause = true;
@@ -351,7 +351,7 @@
             l = 0;
 
         // Clean canvas
-        ctx.fillStyle = '#030';
+        ctx.fillStyle = '#001';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw title

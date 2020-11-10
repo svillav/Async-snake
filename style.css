@@ -1,15 +1,39 @@
 body {
+    display: flex;
+    justify-content: center;
     margin: 0px;
     padding: 0px;
     background: #000;
+    background-image: url(./assets/galaxy.jpg);
     text-align: center;
 }
 
+div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
 h1 {
+    position: relative;
+    padding: 10px 30px;
+    margin-top: 25px;
+    background-color: rgb(0, 0, 0);
+    background-image: url(./assets/galaxy.jpg);
+    border: 2px double rgb(221, 221, 221);
+    border-radius: 8px;
     text-align: center;
     font-weight: 800;
     font-size: 50px;
     font-family: 'Courier New', Courier, monospace;
     color: rgb(245, 245, 245);
-    text-shadow: 4px 2px rgb(216, 0, 0);
+    text-shadow: 3px 3px rgb(255, 0, 0);
+}
+
+canvas {
+    position: relative;
+    margin-top: -15px;
+    border: 1px solid rgb(0, 0, 165);
+    background-image: url(./assets/galaxy.jpg);
 }
